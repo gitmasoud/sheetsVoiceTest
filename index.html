@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Landing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f4f1eb;
+      --ink: #1a1714;
+      --accent: #d4500a;
+      --muted: #8c8680;
+      --card-bg: #eceae3;
+      --border: #d6d3cb;
+      --row-hover: #e8e5de;
+      --radius: 4px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+    }
+    .logo { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em; }
+    .logo span { color: var(--accent); }
+
+    nav { display: flex; gap: 2rem; align-items: center; }
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--ink); }
+    .nav-cta {
+      background: var(--ink);
+      color: var(--bg) !important;
+      padding: 0.55rem 1.2rem;
+      border-radius: var(--radius);
+    }
+    .nav-cta:hover { background: var(--accent) !important; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 5rem 2.5rem 3.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: end;
+      opacity: 0;
+      animation: rise 0.6s 0.05s forwards;
+    }
+    .eyebrow {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    h1 em { font-style: italic; color: var(--muted); }
+    .hero-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 38ch;
+      margin-top: 1rem;
+    }
+    .hero-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      gap: 2.5rem;
+    }
+    .stat-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.2rem; }
+    .stat-value { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.05em; }
+
+    /* ── SECTION ── */
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2.5rem 5rem;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .section-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+    .section-actions { display: flex; gap: 0.6rem; align-items: center; }
+    .btn-ghost {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'Syne', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.4rem 0.9rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+    .btn-solid {
+      background: var(--ink);
+      border: 1px solid var(--ink);
+      border-radius: var(--radius);
+      font-family: 'Syne', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--bg);
+      padding: 0.4rem 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-solid:hover { background: var(--accent); border-color: var(--accent); }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      margin-top: 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      opacity: 0;
+      animation: rise 0.6s 0.2s forwards;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    thead {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    thead th {
+      padding: 0.85rem 1.2rem;
+      text-align: left;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--muted);
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+    }
+    thead th:hover { color: var(--ink); }
+    thead th .sort-arrow { opacity: 0.35; margin-left: 0.3rem; font-size: 0.6rem; }
+    thead th.sorted .sort-arrow { opacity: 1; color: var(--accent); }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.12s;
+      opacity: 0;
+      animation: rise 0.4s forwards;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--row-hover); }
+
+    /* stagger rows */
+    tbody tr:nth-child(1)  { animation-delay: 0.25s; }
+    tbody tr:nth-child(2)  { animation-delay: 0.30s; }
+    tbody tr:nth-child(3)  { animation-delay: 0.35s; }
+    tbody tr:nth-child(4)  { animation-delay: 0.40s; }
+    tbody tr:nth-child(5)  { animation-delay: 0.45s; }
+    tbody tr:nth-child(6)  { animation-delay: 0.50s; }
+    tbody tr:nth-child(7)  { animation-delay: 0.55s; }
+    tbody tr:nth-child(8)  { animation-delay: 0.60s; }
+
+    tbody td {
+      padding: 1rem 1.2rem;
+      color: var(--ink);
+      vertical-align: middle;
+    }
+
+    .cell-main { font-weight: 700; letter-spacing: -0.01em; }
+    .cell-sub  { font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+    .badge--green  { background: #d4ead4; color: #2a6b2a; }
+    .badge--amber  { background: #f2e4cc; color: #7a4a00; }
+    .badge--red    { background: #f2d4d0; color: #7a1a10; }
+    .badge--neutral{ background: var(--border); color: var(--muted); }
+
+    .cell-num {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+      text-align: right;
+    }
+
+    .row-action {
+      opacity: 0;
+      transition: opacity 0.15s;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'Syne', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.3rem 0.7rem;
+      cursor: pointer;
+    }
+    tbody tr:hover .row-action { opacity: 1; }
+    .row-action:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+    /* placeholder rows */
+    .row-empty td { color: var(--muted); font-style: italic; opacity: 0.5; }
+    .row-empty:hover { background: transparent !important; }
+
+    /* ── TABLE FOOTER ── */
+    .table-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.9rem 1.2rem;
+      border-top: 1px solid var(--border);
+      background: var(--card-bg);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .pagination { display: flex; gap: 0.4rem; }
+    .page-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      width: 1.8rem;
+      height: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.68rem;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+    .page-btn:hover, .page-btn.active {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
+    }
+
+    /* ── PAGE FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.6rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 720px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { justify-content: flex-start; }
+      table { font-size: 0.8rem; }
+      thead th, tbody td { padding: 0.75rem 0.8rem; }
+      .col-hide { display: none; }
+    }
+  </style>
+  <script
+    id="retell-widget"
+    src="https://dashboard.retellai.com/retell-widget-v2.js"
+    type="module"
+    data-public-key="YOUR_RETELL_PUBLIC_KEY"
+    data-agent-id="YOUR_CHAT_AGENT_ID"
+    data-voice-public-key="YOUR_VOICE_PUBLIC_KEY"
+    data-voice-agent-id="YOUR_VOICE_AGENT_ID"
+    data-agent-version="YOUR_AGENT_VERSION"
+    data-title="YOUR_CUSTOM_TITLE"
+    data-logo-url="YOUR_LOGO_URL"
+    data-color="YOUR_CUSTOM_COLOR"
+    data-theme-color="YOUR_THEME_COLOR"
+    data-component-color="YOUR_COMPONENT_COLOR"
+    data-fab-text="YOUR_FAB_TEXT"
+    data-bot-name="YOUR_BOT_NAME"
+    data-popup-message="YOUR_POPUP_MESSAGE"
+    data-show-ai-popup="true"
+    data-show-ai-popup-time="5"
+    data-auto-open="false"
+    data-dynamic='{"key": "value"}'
+    data-white-label="YOUR_WHITE_LABEL_TOKEN"
+    data-recaptcha-key="YOUR_GOOGLE_RECAPTCHA_SITE_KEY"
+></script>
+</head>
+<body>
+
+  <header>
+    <div class="logo">base<span>.</span></div>
+    <nav>
+      <a href="#">Work</a>
+      <a href="#">About</a>
+      <a href="#">Journal</a>
+      <a href="#" class="nav-cta">Get started</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Curated collection — 2026</p>
+      <h1>Sheets Data Display</h1>
+      <p class="hero-sub">A clean table ready to hold your data. Add columns, rows, badges — make it yours.</p>
+    </div>
+    <div class="hero-right">
+      <div>
+        <div class="stat-label">Rows</div>
+        <div class="stat-value">—</div>
+      </div>
+      <div>
+        <div class="stat-label">Updated</div>
+        <div class="stat-value">Now</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">All items</span>
+      <div class="section-actions">
+        <button class="btn-ghost">Filter</button>
+        <button class="btn-ghost">Export</button>
+        <button class="btn-solid">+ Add row</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name <span class="sort-arrow">↑</span></th>
+            <th class="col-hide">Category <span class="sort-arrow">↕</span></th>
+            <th>Status <span class="sort-arrow">↕</span></th>
+            <th class="col-hide cell-num">Value <span class="sort-arrow">↕</span></th>
+            <th class="col-hide">Date <span class="sort-arrow">↕</span></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="cell-main">First item</div>
+              <div class="cell-sub">Supporting detail</div>
+            </td>
+            <td class="col-hide"><span class="badge badge--neutral">Category</span></td>
+            <td><span class="badge badge--green">Active</span></td>
+            <td class="col-hide cell-num">—</td>
+            <td class="col-hide" style="color:var(--muted)">—</td>
+            <td style="text-align:right"><button class="row-action">Edit</button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="cell-main">Second item</div>
+              <div class="cell-sub">Supporting detail</div>
+            </td>
+            <td class="col-hide"><span class="badge badge--neutral">Category</span></td>
+            <td><span class="badge badge--amber">Pending</span></td>
+            <td class="col-hide cell-num">—</td>
+            <td class="col-hide" style="color:var(--muted)">—</td>
+            <td style="text-align:right"><button class="row-action">Edit</button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="cell-main">Third item</div>
+              <div class="cell-sub">Supporting detail</div>
+            </td>
+            <td class="col-hide"><span class="badge badge--neutral">Category</span></td>
+            <td><span class="badge badge--red">Inactive</span></td>
+            <td class="col-hide cell-num">—</td>
+            <td class="col-hide" style="color:var(--muted)">—</td>
+            <td style="text-align:right"><button class="row-action">Edit</button></td>
+          </tr>
+          <tr class="row-empty">
+            <td colspan="6" style="text-align:center; padding: 2.5rem;">Add your rows above</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <span>Showing 3 of 3 items</span>
+        <div class="pagination">
+          <button class="page-btn">‹</button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2026 base.</span>
+    <span>Made to be changed.</span>
+  </footer>
+
+  <script>
+    // 1. Publish your sheet: File → Share → Publish to web → CSV
+// 2. Replace SHEET_ID with your actual Sheet ID from the URL
+
+const SHEET_NAME = 'Sheet1'; // tab name
+// Your published sheet ID (extracted from your URL)
+
+async function fetchSheetData() {
+  const SHEET_ID = '2PACX-1vR-QTmYvh9nCRf4_ZmnuYZ6Lrm1zWmGoh5VhRcG5gEFhd_FiUWAWWvXdpgem5WalbpBbQSuGac1WKgE';
+  const sheetUrl = `https://docs.google.com/spreadsheets/d/e/${SHEET_ID}/pub?output=csv`;
+  
+  // Route through a CORS proxy
+  const url = `https://corsproxy.io/?${encodeURIComponent(sheetUrl)}`;
+
+  const response = await fetch(url);
+  const text = await response.text();
+
+  console.log(text)
+
+  // Parse CSV manually (handles quoted fields with commas inside)
+  const lines = text.split('\n').filter(l => l.trim());
+  const headers = parseCSVLine(lines[0]);
+  const rows = lines.slice(1).map(line => {
+    const values = parseCSVLine(line);
+    return Object.fromEntries(headers.map((h, i) => [h.trim(), (values[i] ?? '').trim()]));
+  });
+
+  return rows;
+}
+
+function parseCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"' && line[i + 1] === '"') { current += '"'; i++; }
+    else if (ch === '"') { inQuotes = !inQuotes; }
+    else if (ch === ',' && !inQuotes) { result.push(current); current = ''; }
+    else { current += ch; }
+  }
+  result.push(current);
+  return result;
+}
+
+
+
+async function loadTable() {
+  const tbody = document.querySelector('tbody');
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--muted)">Loading…</td></tr>';
+
+  try {
+
+
+    const rows = await fetchSheetData();
+   // console.log('headers:', headers);
+   // console.log('row count:', rows.length);
+    //console.log('rows:', rows);
+
+    tbody.innerHTML = rows.map(row => `
+      <tr>
+        <td>
+          <div class="cell-main">${row['Name'] ?? '—'}</div>
+        </td>
+        <td class="col-hide"><span class="badge badge--neutral">${row['Category'] ?? '—'}</span></td>
+        <td>${statusBadge(row['Status'])}</td>
+        <td class="col-hide cell-num">${row['Value'] ?? '—'}</td>
+        <td class="col-hide" style="color:var(--muted)">${row['Date'] ?? '—'}</td>
+        <td style="text-align:right"><button class="row-action">Edit</button></td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--muted)">Failed to load data.</td></tr>';
+    console.error(err);
+  }
+}
+
+function statusBadge(status = '') {
+  const map = {
+    'Active':   'badge--green',
+    'Pending':  'badge--amber',
+    'Inactive': 'badge--red',
+  };
+  const cls = map[status] ?? 'badge--neutral';
+  return `<span class="badge ${cls}">${status || '—'}</span>`;
+}
+
+loadTable(); // call on page load
+
+
+//Retell AI
+
+
+  </script>
+</body>
+</html>
