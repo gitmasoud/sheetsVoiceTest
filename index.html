@@ -462,7 +462,10 @@ async function fetchSheetData() {
   // Route through a CORS proxy
   const url = `https://corsproxy.io/?${encodeURIComponent(sheetUrl)}`;
 
-  const response = await fetch(url);
+  //deployed url
+  const deployedurl = `${sheetUrl}`;
+
+  const response = await fetch(deployedurl);
   const text = await response.text();
 
   console.log(text)
